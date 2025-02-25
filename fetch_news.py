@@ -6,7 +6,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 api_key = st.secrets["NYT_API_TOKEN"]
 
-def fetch_nyt_business_news_df(api_key):
+def fetch_nyt_business_news_df(api_key=api_key):
     """
     Fetches top business news stories from the New York Times API and returns them in a pandas DataFrame.
     
@@ -129,3 +129,18 @@ def calculate_average_sentiment(df, sentiment_column="sentiment"):
     except (TypeError, ValueError) as e:
         print(f"Error calculating average sentiment: {e}")
         return None
+
+
+
+def get_image_url(multimedia):
+    """
+    Extract the preferred image URL from the multimedia list.
+    Returns None if no suitable image is found.
+    """
+    if not multimedia or not isinstance(multimedia, list):
+        return None
+    # Prefer 'threeByTwoSmallAt2X' or fallback to first available URL
+    for item in multimedia:
+        if "url" in item and item.get("format") == "threeByTwoSmallAt2X":
+            return item["url"]
+    return multimedia[0].get("url") if multimedia and "url" in multimedia[0] else None
