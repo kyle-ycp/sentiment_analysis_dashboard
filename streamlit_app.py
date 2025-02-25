@@ -4,7 +4,7 @@ import plotly.express as px  # For interactive charts
 from fetch_news import *
 
 # Set app icon and title
-st.set_page_config(page_title="News Sentiment Dashboard", page_icon="📰", 
+st.set_page_config(page_title="News Sentiment Analysis Dashboard", page_icon="📰", 
                    menu_items=
                    {
                         'Get Help': 'https://www.extremelycoolapp.com/help',
@@ -14,7 +14,7 @@ st.set_page_config(page_title="News Sentiment Dashboard", page_icon="📰",
 )
 
 
-st.title("News Sentiment Dashboard")
+st.title("News Sentiment Analysis Dashboard")
 st.write("Browse business news from The New York Times with sentiment analysis.")
 
 df = fetch_nyt_business_news_df(st.secrets["NYT_API_TOKEN"])
@@ -109,7 +109,7 @@ else:
                 st.write("No image available")
         with col2:
             st.markdown(f"### [{row['Title']}]({row['URL']})")
-            st.write(f"**Abstract**: {row['Abstract']}")
+            st.write(f"**{row['Abstract']}**")
             st.write(f"**Author**: {row['Author']} | **Date**: {row['Published Date']}")
             sentiment_color = "green" if row["sentiment"] > 0 else "red" if row["sentiment"] < 0 else "gray"
             st.markdown(f"**Sentiment**: <span style='color:{sentiment_color}'>{row['sentiment']:.4f}</span>", unsafe_allow_html=True)
