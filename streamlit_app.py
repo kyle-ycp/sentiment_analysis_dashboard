@@ -4,7 +4,7 @@ import plotly.express as px  # For interactive charts
 from fetch_news import *
 
 # Set app icon and title
-st.set_page_config(page_title="NYT News Sentiment Analysis Dashboard", page_icon="📰", layout="wide", 
+st.set_page_config(page_title="NYT News Sentiment Analysis Dashboard", page_icon="📰", 
                    menu_items=
                    {
                         'Get Help': 'https://www.extremelycoolapp.com/help',
