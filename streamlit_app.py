@@ -75,30 +75,40 @@ with col2:
 
 
 
-# News Feed Layout
+# Pagination for News Feed
 st.subheader("Latest News")
-for index, row in filtered_df.iterrows():
-    # Create a two-column layout: image on left, text on right
-    col1, col2 = st.columns([1, 3])  # 1:3 ratio for image:text
-    
-    # Image column
-    image_url = get_image_url(row["Multimedia"])
-    if image_url:
-        with col1:
-            st.image(image_url, width=150, caption="News Image")
-    else:
-        with col1:
-            st.write("No image available")
+articles_per_page = 5
+total_articles = len(filtered_df)
+total_pages = (total_articles + articles_per_page - 1) // articles_per_page  # Ceiling division
 
-    # Text column
-    with col2:
-        st.markdown(f"### [{row['Title']}]({row['URL']})")
-        st.write(f"**{row['Abstract']}**")
-        st.write(f"**Author**: {row['Author']} | **Date**: {row['Published Date']}")
-        sentiment_color = "green" if row["sentiment"] > 0 else "red" if row["sentiment"] < 0 else "gray"
-        st.markdown(f"**Sentiment**: <span style='color:{sentiment_color}'>{row['sentiment']:.4f}</span>", unsafe_allow_html=True)
+if total_articles == 0:
+    st.write("No articles match the current filters.")
+else:
+    # Page selection
+    page = st.selectbox("Select Page", range(1, total_pages + 1), key="page_selector")
+    start_idx = (page - 1) * articles_per_page
+    end_idx = min(start_idx + articles_per_page, total_articles)
     
-    st.markdown("---")  # Horizontal line between articles
+    st.write(f"Showing articles {start_idx + 1} to {end_idx} of {total_articles}")
+    page_df = filtered_df.iloc[start_idx:end_idx]
+    
+    # Display news feed
+    for index, row in page_df.iterrows():
+        col1, col2 = st.columns([1, 3])
+        image_url = get_image_url(row["Multimedia"])
+        if image_url:
+            with col1:
+                st.image(image_url, width=150, caption="News Image")
+        else:
+            with col1:
+                st.write("No image available")
+        with col2:
+            st.markdown(f"### [{row['Title']}]({row['URL']})")
+            st.write(f"**Abstract**: {row['Abstract']}")
+            st.write(f"**Author**: {row['Author']} | **Date**: {row['Published Date']}")
+            sentiment_color = "green" if row["sentiment"] > 0 else "red" if row["sentiment"] < 0 else "gray"
+            st.markdown(f"**Sentiment**: <span style='color:{sentiment_color}'>{row['sentiment']:.4f}</span>", unsafe_allow_html=True)
+        st.markdown("---")
 
 
 
