@@ -17,7 +17,7 @@ st.set_page_config(page_title="NYT News Sentiment Analysis Dashboard", page_icon
 st.title("NYT News Sentiment Analysis Dashboard")
 st.write("Browse business news from The New York Times with sentiment analysis.")
 
-df = fetch_nyt_business_news_df()
+df = fetch_nyt_business_news_df(st.secrets["NYT_API_TOKEN"])
 df = calculate_sentiment_score(df, "Title")
 
 
