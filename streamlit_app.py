@@ -21,14 +21,23 @@ df = fetch_nyt_business_news_df(st.secrets["NYT_API_TOKEN"])
 df = calculate_sentiment_score(df, "Title")
 
 
-# Sentiment Filter in Main Area
-sentiment_range = st.slider(
-    "Select Sentiment Range", min_value=-1.0, max_value=1.0, value=(-1.0, 1.0), step=0.1
-)
-if df is not None and not df.empty:
-    filtered_df = df[(df["sentiment"] >= sentiment_range[0]) & (df["sentiment"] <= sentiment_range[1])]
-else:
-    st.error("No data available to filter.")
+# Filters
+st.subheader("Filters")
+col1, col2 = st.columns(2)  # Two columns for filters
+
+with col1:
+    sentiment_range = st.slider("Sentiment Range", min_value=-1.0, max_value=1.0, value=(-1.0, 1.0), step=0.1)
+
+with col2:
+    keyword = st.text_input("Search Keywords in Title", placeholder="e.g., Tech, Crypto").strip().lower()
+
+# Apply filters
+filtered_df = df.copy()
+if keyword:
+    filtered_df = filtered_df[filtered_df["Title"].str.lower().str.contains(keyword, na=False)]
+filtered_df = filtered_df[(filtered_df["sentiment"] >= sentiment_range[0]) & 
+                            (filtered_df["sentiment"] <= sentiment_range[1])].dropna(subset=["sentiment"])
+
 
 
 # Sentiment Visualizations
