@@ -4,7 +4,7 @@ import plotly.express as px  # For interactive charts
 from fetch_news import *
 
 # Set app icon and title
-st.set_page_config(page_title="NYT News Sentiment Analysis Dashboard", page_icon="📰", 
+st.set_page_config(page_title="News Sentiment Analysis Dashboard", page_icon="📰", 
                    menu_items=
                    {
                         'Get Help': 'https://www.extremelycoolapp.com/help',
@@ -32,7 +32,12 @@ with col2:
     keyword = st.text_input("Search Keywords in Title", placeholder="e.g., Tech, Crypto").strip().lower()
 
 # Apply filters
-filtered_df = df.copy()
+if not df.empty:
+    filtered_df = df.copy()
+else:
+    st.error("There is not data from the datasoure.")
+    df = pd.DataFrame(columns=['sentiment'])
+
 if keyword:
     filtered_df = filtered_df[filtered_df["Title"].str.lower().str.contains(keyword, na=False)]
 filtered_df = filtered_df[(filtered_df["sentiment"] >= sentiment_range[0]) & 
