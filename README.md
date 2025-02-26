@@ -1,19 +1,12 @@
-# 🎈 Blank app template
+# NYT News Sentiment Analysis Dashboard
 
-A simple Streamlit app template for you to modify!
+This dashboard provides sentiment analysis of business news articles from The New York Times, along with market insights such as the VIX and S&P 500 trends.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+## Features
 
-### How to run it on your own machine
+- **Sentiment Analysis**: Analyze sentiment scores of news articles with filters for sentiment range and keywords.
+- **Paginated News Feed**: View a paginated feed of articles complete with images and details.
+- **Market Insights**: Visualize market data with a VIX gauge and S&P 500 line chart.
+- **Downloadable Data**: Export filtered news data as a CSV file for further analysis.
 
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+You can visit the dashboard by this link: https://analysesentiment.streamlit.app/
